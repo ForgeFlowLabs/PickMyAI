@@ -87,14 +87,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;ali
 .mcard-bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
 .mcard-body{padding:44px 44px 40px}
 
-/* Key banner */
-.key-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fff8ec,#fff3f8);border:1px solid #ffd6a5;border-radius:var(--r);padding:14px 16px;margin-bottom:28px;flex-wrap:wrap}
-.key-banner p{font-size:12px;color:#9a6000;flex:1;min-width:160px;line-height:1.5;font-weight:400}
-.key-banner a{color:#7c4f00;font-weight:500}
-.key-in{background:white;border:1px solid #ffd6a5;border-radius:8px;padding:8px 12px;font-family:var(--sans);font-size:12px;color:var(--ink);width:180px;outline:none}
-.key-in:focus{border-color:var(--gold)}
-.key-sv{background:var(--gold);color:white;border:none;border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;font-family:var(--sans);white-space:nowrap;font-weight:500}
-
 /* Steps */
 .q-step{display:none}
 .q-step.active{display:block;animation:up 0.28s ease}
@@ -244,12 +236,6 @@ footer{padding:26px 48px;border-top:1px solid rgba(196,181,253,0.2);display:flex
       <div class="mcard-prog"><div class="mcard-bar" id="mbar"></div></div>
       <div class="mcard-body">
 
-        <div class="key-banner" id="keyRow">
-          <p>🔑 Add your Google AI key for live AI recommendations — <a href="https://aistudio.google.com/apikey" target="_blank">get one free →</a></p>
-          <input type="password" class="key-in" id="keyIn" placeholder="AIza..." />
-          <button class="key-sv" onclick="saveKey()">Save</button>
-        </div>
-
         <!-- Q1 -->
         <div class="q-step active" id="q1">
           <div class="step-meta"><span class="step-tag">1 of 5</span><button class="step-bk" hidden></button></div>
@@ -384,13 +370,6 @@ footer{padding:26px 48px;border-top:1px solid rgba(196,181,253,0.2);display:flex
 
 <script>
 const A={};let step=1;
-if(localStorage.getItem('pmai_gkey'))document.getElementById('keyRow').style.display='none';
-
-function saveKey(){
-  const k=document.getElementById('keyIn').value.trim();
-  if(k.startsWith('AIza')){localStorage.setItem('pmai_gkey',k);document.getElementById('keyRow').style.display='none';}
-  else alert('Please enter a valid Google AI key (starts with AIza)');
-}
 
 function pick(btn,key,val){
   btn.closest('.opts,.opts-2').querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
@@ -411,21 +390,6 @@ function showStep(n){
 function next(from){const keys=['goal','budget','skill','industry','integration'];if(!A[keys[from-1]])return;showStep(from+1);}
 function back(from){showStep(from-1);}
 
-const FB={
-  writing:[{name:'Claude',tagline:'Best AI for thoughtful writing',why:'Excels at long-form, nuanced content across any format or tone.',price:'Free / $20/mo',badge:'best match',url:'https://claude.ai'},{name:'Jasper',tagline:'Marketing copy at scale',why:'Built for marketing teams with brand voice training and templates.',price:'$39/mo',badge:'budget pick',url:'https://jasper.ai'},{name:'Notion AI',tagline:'Write inside your workspace',why:'Combines writing, notes, and project management in one place.',price:'$8/mo add-on',badge:'power user',url:'https://notion.so'}],
-  code:[{name:'Cursor',tagline:'AI-native code editor',why:'Understands your entire codebase for smarter, context-aware completions.',price:'Free / $20/mo',badge:'best match',url:'https://cursor.sh'},{name:'GitHub Copilot',tagline:'Code completion everywhere',why:'Works inside VS Code and integrates seamlessly with your git workflow.',price:'$10/mo',badge:'budget pick',url:'https://github.com/features/copilot'},{name:'v0 by Vercel',tagline:'Generate UI with prompts',why:'Turn text descriptions into production-ready React components instantly.',price:'Free / $20/mo',badge:'power user',url:'https://v0.dev'}],
-  images:[{name:'Midjourney',tagline:'Highest quality AI imagery',why:'Produces the most stunning, professional images of any AI tool available.',price:'$10/mo',badge:'best match',url:'https://midjourney.com'},{name:'Adobe Firefly',tagline:'Safe for commercial use',why:'Trained on licensed content so output is legally safe for business use.',price:'Free / $5/mo',badge:'budget pick',url:'https://firefly.adobe.com'},{name:'DALL-E 3',tagline:'Best prompt understanding',why:'Follows complex creative instructions more accurately than competitors.',price:'Included in ChatGPT Plus',badge:'power user',url:'https://openai.com/dall-e-3'}],
-  automation:[{name:'Zapier',tagline:'Connect 6,000+ apps instantly',why:'No-code automation with thousands of pre-built templates for any workflow.',price:'Free / $20/mo',badge:'best match',url:'https://zapier.com'},{name:'Make',tagline:'Visual workflow builder',why:'More powerful than Zapier with better pricing for complex automations.',price:'Free / $9/mo',badge:'budget pick',url:'https://make.com'},{name:'n8n',tagline:'Self-hosted automation',why:'Unlimited workflows and full control — perfect for technical teams.',price:'Free (self-host)',badge:'power user',url:'https://n8n.io'}],
-  research:[{name:'Perplexity AI',tagline:'AI search with live citations',why:'Answers research questions with real, verifiable sources you can check.',price:'Free / $20/mo',badge:'best match',url:'https://perplexity.ai'},{name:'NotebookLM',tagline:'AI over your own documents',why:'Upload your sources and ask questions directly — ideal for deep research.',price:'Free',badge:'budget pick',url:'https://notebooklm.google.com'},{name:'Elicit',tagline:'Academic research assistant',why:'Designed for systematic research with intelligent paper summaries.',price:'Free / $12/mo',badge:'power user',url:'https://elicit.com'}],
-  video:[{name:'Descript',tagline:'Edit video by editing text',why:'Remove filler words and cut scenes just by editing a transcript.',price:'Free / $24/mo',badge:'best match',url:'https://descript.com'},{name:'CapCut AI',tagline:'Easy AI video editing',why:'Free, beginner-friendly with powerful auto-captions and AI effects.',price:'Free / $8/mo',badge:'budget pick',url:'https://capcut.com'},{name:'Runway',tagline:'Next-gen AI video generation',why:'Generate and edit video from text prompts — the most capable AI video tool.',price:'$15/mo',badge:'power user',url:'https://runwayml.com'}],
-  marketing:[{name:'Surfer SEO',tagline:'AI content optimisation',why:'Ranks your content higher by analysing top pages in your niche.',price:'$89/mo',badge:'best match',url:'https://surferseo.com'},{name:'Copy.ai',tagline:'Marketing copy in seconds',why:'Generates ads, emails, and landing pages with minimal prompting.',price:'Free / $36/mo',badge:'budget pick',url:'https://copy.ai'},{name:'Semrush AI',tagline:'Full-stack marketing intelligence',why:'Combines SEO, ads, social, and content tools in one powerful platform.',price:'$129/mo',badge:'power user',url:'https://semrush.com'}],
-  customer:[{name:'Intercom Fin',tagline:'AI customer support agent',why:'Resolves up to 50% of support tickets automatically with high accuracy.',price:'$39/mo',badge:'best match',url:'https://intercom.com'},{name:'Tidio',tagline:'Affordable AI chat for SMBs',why:'Easy-to-set-up live chat and AI bot combo built for small businesses.',price:'Free / $19/mo',badge:'budget pick',url:'https://tidio.com'},{name:'Zendesk AI',tagline:'Enterprise support automation',why:'Deep CRM integration with intelligent ticket routing and agent assist.',price:'$55/mo',badge:'power user',url:'https://zendesk.com'}],
-  data:[{name:'Julius AI',tagline:'Chat with your data',why:'Upload any spreadsheet and ask questions in plain English instantly.',price:'Free / $20/mo',badge:'best match',url:'https://julius.ai'},{name:'ChatCSV',tagline:'Instant CSV analysis',why:'The fastest way to extract insights from a CSV without writing code.',price:'Free / $10/mo',badge:'budget pick',url:'https://chatcsv.co'},{name:'Hex',tagline:'Collaborative data notebooks',why:'Combines SQL, Python, and AI in one notebook for serious data teams.',price:'Free / $24/mo',badge:'power user',url:'https://hex.tech'}],
-  productivity:[{name:'Notion AI',tagline:'Think, write, plan — one app',why:'Integrates AI directly into your notes, docs, and project management.',price:'$8/mo add-on',badge:'best match',url:'https://notion.so'},{name:'Otter.ai',tagline:'AI meeting notes',why:'Transcribes and summarises meetings automatically so you stay focused.',price:'Free / $10/mo',badge:'budget pick',url:'https://otter.ai'},{name:'Mem',tagline:'Self-organising AI workspace',why:'Automatically connects your notes and surfaces context when you need it.',price:'$14/mo',badge:'power user',url:'https://mem.ai'}],
-  hr:[{name:'Manatal',tagline:'AI recruitment platform',why:'Scores candidates automatically and integrates with all major job boards.',price:'$15/mo',badge:'best match',url:'https://manatal.com'},{name:'Kickresume',tagline:'AI CV and screening tools',why:'Helps both candidates and HR teams create and screen CVs with AI.',price:'Free / $10/mo',badge:'budget pick',url:'https://kickresume.com'},{name:'Leena AI',tagline:'Enterprise HR automation',why:'Automates onboarding, policies, and employee queries at enterprise scale.',price:'Custom',badge:'power user',url:'https://leena.ai'}],
-  finance:[{name:'Vic.ai',tagline:'AI accounts payable',why:'Automates invoice processing and approvals with industry-leading accuracy.',price:'Custom',badge:'best match',url:'https://vic.ai'},{name:'Dext',tagline:'Receipt and expense capture',why:'Snap receipts and auto-sync to your accounting software in seconds.',price:'$20/mo',badge:'budget pick',url:'https://dext.com'},{name:'Kira Systems',tagline:'AI contract analysis',why:'Reviews contracts and extracts key clauses in seconds for legal teams.',price:'Custom',badge:'power user',url:'https://kirasystems.com'}]
-};
-
 async function getResults(){
   if(!A.integration)return;
   document.querySelectorAll('.q-step').forEach(s=>s.classList.remove('active'));
@@ -433,26 +397,28 @@ async function getResults(){
   document.getElementById('loadingScreen').classList.add('on');
   document.getElementById('mbar').style.width='100%';
 
-  const prompt=`You are PickMyAI. Recommend exactly 3 real AI tools for this user.
-Profile: goal=${A.goal}, budget=${A.budget}, skill=${A.skill}, industry=${A.industry}, integration=${A.integration}
-Rules: Real tools only. tool 1=best match, tool 2=budget/alternative, tool 3=power user. One specific sentence why each fits this profile.
-Return ONLY a JSON array, no markdown:
-[{"name":"...","tagline":"max 6 words","why":"one specific sentence","price":"e.g. Free or $20/mo","badge":"best match","url":"https://..."},{"name":"...","tagline":"...","why":"...","price":"...","badge":"budget pick","url":"https://..."},{"name":"...","tagline":"...","why":"...","price":"...","badge":"power user","url":"https://..."}]`;
-
-  const key=localStorage.getItem('pmai_gkey')||'';
   let tools=null;
-  if(key){
-    try{
-      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.7,maxOutputTokens:800}})
-      });
-      const d=await r.json();
-      const txt=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
-      tools=JSON.parse(txt.replace(/```json|```/g,'').trim());
-    }catch(e){tools=null;}
+  try{
+    const r=await fetch('/.netlify/functions/recommend',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        goal:A.goal,budget:A.budget,skill:A.skill,
+        industry:A.industry,integration:A.integration
+      })
+    });
+    tools=await r.json();
+    if(!Array.isArray(tools))tools=null;
+  }catch(e){tools=null;}
+
+  if(!tools){
+    tools=[
+      {name:'ChatGPT',tagline:'Best all-round AI assistant',why:'The most versatile AI tool available — handles writing, research, code, and more for any skill level.',price:'Free / $20/mo',badge:'best match',url:'https://chat.openai.com'},
+      {name:'Claude',tagline:'Best for writing & analysis',why:'Excels at nuanced long-form content, research summaries, and thoughtful reasoning.',price:'Free / $20/mo',badge:'budget pick',url:'https://claude.ai'},
+      {name:'Gemini',tagline:'Google AI with live search',why:'Integrates with Google Workspace and can search the web in real time for up-to-date answers.',price:'Free / $20/mo',badge:'power user',url:'https://gemini.google.com'}
+    ];
   }
-  renderResults(tools||FB[A.goal]||FB.writing);
+  renderResults(tools);
 }
 
 function renderResults(tools){
